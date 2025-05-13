@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start"
+    android:padding="@dimen/margin_element">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/primaryText">
+
+        <TextView
+            android:id="@+id/tv_message_gpt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPT 응답 메시지"
+            android:maxWidth="280dp"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/cardBackground"
+            android:padding="@dimen/padding_card" />
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

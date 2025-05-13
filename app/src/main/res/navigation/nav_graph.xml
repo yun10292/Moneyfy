@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.moneyfy.ui.home.fragment.HomeFragment"
+        android:label="홈" />
+
+    <fragment
+        android:id="@+id/nav_chart"
+        android:name="com.example.moneyfy.ui.chart.ChartFragment"
+        android:label="차트" />
+
+    <fragment
+        android:id="@+id/nav_budget"
+        android:name="com.example.moneyfy.ui.budget.BudgetFragment"
+        android:label="자산" />
+
+    <fragment
+        android:id="@+id/nav_advice"
+        android:name="com.example.moneyfy.ui.advice.AdviceFragment"
+        android:label="조언" />
+
+</navigation>

@@ -1,0 +1,193 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_screen"
+    android:gravity="center_horizontal"
+    android:background="@color/background">
+
+    <!-- 카드: 내 재산 -->
+    <com.google.android.material.card.MaterialCardView
+        style="@style/BasicCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_element">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_card">
+
+            <TextView
+                style="@style/semiTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 재산"
+                android:layout_marginBottom="@dimen/margin_element" />
+
+            <EditText
+                android:id="@+id/et_total_asset"
+                style="@style/EditText.Default.Emphasize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 카드: 월 예산 -->
+    <com.google.android.material.card.MaterialCardView
+        style="@style/BasicCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_element">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_card">
+
+            <TextView
+                style="@style/semiTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="월 예산"
+                android:layout_marginBottom="@dimen/margin_element"
+                />
+
+            <EditText
+                android:id="@+id/et_month_budget"
+                style="@style/EditText.Default.Emphasize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                style="@style/semiTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남은 예산"
+                android:layout_marginBottom="@dimen/margin_element"
+                />
+
+            <EditText
+                android:id="@+id/et_remaining_budget"
+                style="@style/EditText.Default.Emphasize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 카드: 목표 저축금액 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        style="@style/BasicCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_card">
+
+            <!-- ✅ 날짜 선택: 가로로 유지 -->
+            <LinearLayout
+                android:id="@+id/layout_date_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/text_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시작일"
+                    android:padding="8dp"
+                    android:textColor="@color/primaryText" />
+
+                <TextView
+                    android:id="@+id/text_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" ~ "
+                    android:padding="8dp"
+                    android:textColor="@color/secondaryText" />
+
+                <TextView
+                    android:id="@+id/text_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="종료일"
+                    android:padding="8dp"
+                    android:textColor="@color/primaryText" />
+            </LinearLayout>
+
+            <!-- ⬇️ 그 아래는 세로로 쭉쭉 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_element"
+                android:layout_marginBottom="@dimen/margin_element"
+                android:text="목표 저축금액"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/primaryText" />
+
+            <EditText
+                android:id="@+id/et_saving_goal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="18sp"
+                android:textColor="@color/primaryText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_element"
+                android:layout_marginBottom="@dimen/margin_element"
+                android:text="남은 저축 금액"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/primaryText" />
+
+            <TextView
+                android:id="@+id/tv_saving_remain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0원"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:gravity="end"
+                android:padding="4dp" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/pb_saving_progress"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginTop="@dimen/margin_section"
+                android:progress="0"
+                android:max="100"
+                app:indicatorColor="@color/mainColor"
+                app:trackColor="@color/thirdText" />
+
+            <TextView
+                android:id="@+id/tv_saving_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0% 남음"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/text_small" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

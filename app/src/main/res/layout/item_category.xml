@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_category"
+    style="@style/BasicCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_element"
+    android:backgroundTint="@color/cardBackground"
+    app:cardCornerRadius="@dimen/corner_radius">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_card">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/category_icon"
+            android:src="@drawable/ic_add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/layout_category"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_category"
+            app:layout_constraintEnd_toStartOf="@+id/layout_category"
+            android:layout_marginEnd="8dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/category_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/category_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="건강/현금"
+                android:textColor="@color/primaryText"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <!-- 총금액 -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/category_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_icon_inner"
+            android:text="3233000원"
+            android:textColor="@color/primaryText"
+            android:textSize="@dimen/text_small"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

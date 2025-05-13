@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_advice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@color/background">
+
+    <!-- 채팅 목록 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <!-- 메시지 입력 영역 -->
+    <LinearLayout
+        android:id="@+id/message_input_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:elevation="2dp">
+
+        <!-- 입력창 -->
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="메시지를 입력하세요"
+            android:background="@drawable/bg_message_input"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/primaryText"
+            android:textColorHint="@color/secondaryText"
+            android:textSize="14sp"
+            android:maxLines="5"
+            android:gravity="center_vertical|start" />
+
+        <!-- 전송 버튼 -->
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:text="전송"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/mainColor"
+            android:paddingHorizontal="16dp"
+            android:textSize="13sp"
+            android:background="@drawable/bg_send_button" />
+    </LinearLayout>
+</LinearLayout>

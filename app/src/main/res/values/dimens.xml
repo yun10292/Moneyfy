@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Margin and Padding -->
+    <dimen name="margin_screen">20dp</dimen>         <!-- 화면 좌우 기본 여백 -->
+    <dimen name="margin_element">12dp</dimen>
+    <dimen name="margin_section">24dp</dimen>
+    <dimen name="padding_card">16dp</dimen><!-- 카드 내부 패딩 -->
+    <dimen name="margin_button">20dp</dimen>      <!-- 버튼 위 여백 -->
+    <dimen name="padding_input_inner">10dp</dimen>
+    <dimen name="padding_inner_horizontal">8dp</dimen>
+    <dimen name="margin_navigation">56dp</dimen> <!-- 또는 BottomNavigationView 높이에 맞게 -->
+    <dimen name="margin_icon_inner">8dp</dimen>
+    <dimen name="margin_tab_top">48dp</dimen>
+
+
+    <!-- Text Sizes -->
+    <dimen name="text_xlarge">22sp</dimen>           <!-- 페이지 제목, 잔액 등 강조 -->
+    <dimen name="text_large">18sp</dimen>            <!-- 카드 타이틀, 큰 항목 이름 -->
+    <dimen name="text_medium">16sp</dimen>           <!-- 일반 텍스트 -->
+    <dimen name="text_small">14sp</dimen>            <!-- 설명, 날짜 등 -->
+    <dimen name="text_hint">12sp</dimen>             <!-- 힌트, 서브 설명 -->
+
+    <!-- Element Sizes -->
+    <dimen name="button_height">52dp</dimen>         <!-- 메인/보조 버튼 -->
+    <dimen name="corner_radius">16dp</dimen>         <!-- 카드나 버튼 둥근 정도 -->
+
+</resources>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_screen">
+
+
+        <!-- 제목 -->
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수입 내역을 입력하세요"
+            android:layout_marginTop="8dp" />
+
+        <!-- 날짜 -->
+        <TextView
+            style="@style/TextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날짜"
+            android:labelFor="@id/et_income_date"
+            android:layout_marginTop="@dimen/margin_section" />
+
+        <EditText
+            android:id="@+id/et_income_date"
+            style="@style/EditText.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="날짜를 선택하세요"
+            android:inputType="none"
+            android:autofillHints="date"
+            android:textColorHint="@color/thirdText" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <!-- 금액 -->
+        <TextView
+            style="@style/TextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="금액"
+            android:labelFor="@id/et_income_cost"
+            android:layout_marginTop="@dimen/margin_element" />
+
+        <EditText
+            android:id="@+id/et_income_cost"
+            style="@style/EditText.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:autofillHints="price"
+            android:hint="금액을 입력하세요"
+            android:textColorHint="@color/thirdText" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <!-- 분류 -->
+        <TextView
+            style="@style/TextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="분류"
+            android:labelFor="@id/et_income_category"
+            android:layout_marginTop="@dimen/margin_element" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:hintTextColor="@color/thirdText">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_income_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:autofillHints="category"
+                android:textColorHint="@color/thirdText"
+                style="@style/EditText.Default" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <!-- 자산 -->
+        <TextView
+            style="@style/TextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자산"
+            android:labelFor="@id/et_income_method"
+            android:layout_marginTop="@dimen/margin_element" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:hintTextColor="@color/thirdText">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_income_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:autofillHints="payment-method"
+                android:textColorHint="@color/thirdText"
+                style="@style/EditText.Default" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <!-- 메모 -->
+        <TextView
+            style="@style/TextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메모"
+            android:labelFor="@id/et_income_memo"
+            android:layout_marginTop="@dimen/margin_section" />
+
+        <EditText
+            android:id="@+id/et_income_memo"
+            style="@style/EditText.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="메모를 입력하세요"
+            android:autofillHints="memo"
+            android:textColorHint="@color/thirdText" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <!-- 저장 버튼 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_income_submit"
+            style="@style/Button.Default"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margin_button"
+            app:backgroundTint="@color/mainColor"
+            android:text="저장하기" />
+
+        <!-- 수정/삭제 버튼 묶음 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_income_edit"
+                style="@style/Button.Default"
+                android:layout_width="140dp"
+                android:layout_marginTop="@dimen/margin_button"
+                app:backgroundTint="@color/secondaryText"
+                android:text="수정" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_income_delete"
+                style="@style/Button.Default"
+                android:layout_width="140dp"
+                android:layout_marginTop="@dimen/margin_button"
+                android:layout_marginStart="@dimen/margin_element"
+                app:backgroundTint="@color/secondaryText"
+                android:text="삭제" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

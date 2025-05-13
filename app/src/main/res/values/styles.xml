@@ -1,0 +1,81 @@
+<resources>
+
+    <style name="TextTitle">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="semiTextTitle">
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextBody">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <!-- 3. 카드 레이아웃 기본 스타일 -->
+    <style name="BasicCard">
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
+        <item name="cardElevation">2dp</item>
+        <item name="android:padding">@dimen/padding_card</item>
+        <item name="android:background">@color/cardBackground</item>
+    </style>
+
+    <!-- 탭 텍스트용 스타일 -->
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/text_small</item> <!-- 14sp -->
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <!-- 탭 레이아웃 전체 스타일 -->
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextStyle</item>
+        <item name="tabSelectedTextColor">@color/mainColor</item>
+        <item name="tabIndicatorColor">@color/secondaryText</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabRippleColor">@android:color/transparent</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <style name="EditText.Default" parent="Widget.AppCompat.EditText">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textColorHint">@color/secondaryText</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="EditText.Default.Emphasize" parent="Widget.AppCompat.EditText">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_xlarge</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textColorHint">@color/secondaryText</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+
+    <style name="TextLabel">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/secondaryText</item>
+    </style>
+    <!-- 버튼:  -->
+    <style name="Button.Default" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+
+</resources>

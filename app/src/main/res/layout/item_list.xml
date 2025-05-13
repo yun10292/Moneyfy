@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_list"
+    style="@style/BasicCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_element"
+    android:backgroundTint="@color/cardBackground"
+    app:cardCornerRadius="@dimen/corner_radius">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_card">
+
+        <!-- 아이콘 -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/list_icon"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/layout_list"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_list"
+            app:layout_constraintEnd_toStartOf="@+id/layout_list"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- 결제 수단 + 시간 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:id="@+id/layout_list"
+            app:layout_constraintStart_toEndOf="@id/list_icon"
+            app:layout_constraintEnd_toStartOf="@id/list_cost"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/list_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카드"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/list_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1시"
+                android:textSize="@dimen/text_hint"
+                android:textColor="@color/secondaryText"/>
+        </LinearLayout>
+
+        <!-- 금액 -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/list_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3233000원"
+            android:textSize="@dimen/text_small"
+            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+            android:layout_marginEnd="@dimen/margin_element"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
