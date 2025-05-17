@@ -29,13 +29,11 @@ public class ChartCategoryAdapter extends RecyclerView.Adapter<ChartCategoryAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            icon = itemView.findViewById(R.id.category_icon);
             method = itemView.findViewById(R.id.category_method);
             cost = itemView.findViewById(R.id.category_cost);
         }
 
         public void bind(ChartCategoryItem item) {
-            icon.setImageResource(item.getIconResId());
             method.setText(item.getCategoryMethod());
             cost.setText(item.getCost());
         }

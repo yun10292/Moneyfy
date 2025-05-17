@@ -13,6 +13,10 @@
             <item>교육</item>
             <item>경조사/회비</item>
             <item>부모님</item>
+            <item>저축</item>
+            <item>용돈</item>
+            <item>근로소득</item>
+            <item>금융소득</item>
             <item>기타</item>
         </string-array>
 

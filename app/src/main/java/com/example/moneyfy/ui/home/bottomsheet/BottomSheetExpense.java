@@ -1,6 +1,7 @@
 package com.example.moneyfy.ui.home.bottomsheet;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +15,22 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.moneyfy.R;
 import com.example.moneyfy.data.model.ExpenseItem;
+import com.example.moneyfy.data.room.AppDatabase;
+import com.example.moneyfy.data.room.Transaction;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class BottomSheetExpense extends Fragment {
 
-
+    private ExpenseItem item = null;
 
     public static BottomSheetExpense newInstance(@Nullable ExpenseItem item, boolean isEdit) {
         BottomSheetExpense fragment = new BottomSheetExpense();
@@ -37,12 +45,13 @@ public class BottomSheetExpense extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_expense, container, false);
-        
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Context context = requireContext();
 
         EditText etDate = view.findViewById(R.id.et_expense_date);
         EditText etCost = view.findViewById(R.id.et_expense_cost);
@@ -72,7 +81,7 @@ public class BottomSheetExpense extends Fragment {
 
         // 안전한 데이터 추출
         Bundle args = getArguments();
-        ExpenseItem item = null;
+        //ExpenseItem item = null;
         boolean isEdit = false;
 
         if (args != null) {
@@ -104,5 +113,99 @@ public class BottomSheetExpense extends Fragment {
             view.findViewById(R.id.btn_expense_edit).setVisibility(View.GONE);
             view.findViewById(R.id.btn_expense_delete).setVisibility(View.GONE);
         }
+
+        // 신규 입력
+        view.findViewById(R.id.btn_expense_submit).setOnClickListener(v -> {
+            // 입력값 추출
+            String dateStr = etDate.getText().toString().trim();
+            String costStr = etCost.getText().toString().trim();
+            String category = etCategory.getText().toString().trim();
+            String method = etPayment.getText().toString().trim();
+            String memo = etMemo.getText().toString().trim();
+
+            if (dateStr.isEmpty() || costStr.isEmpty() || category.isEmpty()) {
+                Log.w("BottomSheetExpense", "필수 입력값 누락");
+                return;
+            }
+
+            // 날짜 문자열 → timestamp 변환
+            long timestamp = convertDateToMillis(dateStr);
+
+            // Transaction 객체 생성
+            Transaction t = new Transaction();
+            t.type = "expense";
+            t.amount = Integer.parseInt(costStr);
+            t.category = category;
+            t.method = method;
+            t.memo = memo;
+            t.date = timestamp;
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+                AppDatabase.getInstance(context).transactionDao().insert(t);
+                Log.d("DB", "데이터 삽입 완료: " + t.toString());
+            });
+        });
+
+        // 수정
+        view.findViewById(R.id.btn_expense_edit).setOnClickListener(v -> {
+            if (item == null) return;
+
+            String dateStr = etDate.getText().toString().trim();
+            String costStr = etCost.getText().toString().trim();
+            String category = etCategory.getText().toString().trim();
+            String method = etPayment.getText().toString().trim();
+            String memo = etMemo.getText().toString().trim();
+
+            if (dateStr.isEmpty() || costStr.isEmpty() || category.isEmpty()) {
+                Log.w("BottomSheetExpense", "수정 - 필수 입력 누락");
+                return;
+            }
+
+            Transaction t = new Transaction();
+            t.id = item.getId(); // 필수: 기존 항목의 ID
+            t.type = "expense";
+            t.amount = Integer.parseInt(costStr);
+            t.category = category;
+            t.method = method;
+            t.memo = memo;
+            t.date = convertDateToMillis(dateStr);
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+                AppDatabase.getInstance(context).transactionDao().update(t);
+                Log.d("DB", "데이터 수정 완료: " + t.toString());
+            });
+        });
+
+        // 삭제
+        view.findViewById(R.id.btn_expense_delete).setOnClickListener(v -> {
+            if (item == null) return;
+
+            Transaction t = new Transaction();
+            t.id = item.getId(); // 필수: 어떤 항목을 지울지 지정
+            t.type = "expense";
+            t.amount = Integer.parseInt(item.getCost());
+            t.category = item.getCategory();
+            t.method = item.getMethod();
+            t.memo = item.getMemo();
+            t.date = convertDateToMillis(item.getDate());
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+                AppDatabase.getInstance(context).transactionDao().delete(t);
+                Log.d("DB", "데이터 삭제 완료: " + t.toString());
+            });
+        });
+
     }
+
+    private long convertDateToMillis(String dateStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date date = sdf.parse(dateStr);
+            return date.getTime();
+        } catch (Exception e) {
+            Log.e("DateParse", "날짜 파싱 실패: " + dateStr);
+            return System.currentTimeMillis();
+        }
+    }
+
 }

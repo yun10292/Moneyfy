@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +41,8 @@
             android:hint="날짜를 선택하세요"
             android:inputType="none"
             android:autofillHints="date"
-            android:textColorHint="@color/thirdText" />
+            android:textColorHint="@color/thirdText"
+            android:focusableInTouchMode="false"/>
 
         <View
             android:layout_width="match_parent"
@@ -64,7 +66,7 @@
             android:inputType="number"
             android:autofillHints="price"
             android:hint="금액을 입력하세요"
-            android:textColorHint="@color/thirdText" />
+            android:textColorHint="@color/thirdText"/>
 
         <View
             android:layout_width="match_parent"
@@ -92,6 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:autofillHints="category"
                 style="@style/EditText.Default"
                 android:textColorHint="@color/thirdText" />
@@ -109,7 +113,9 @@
             android:layout_height="wrap_content"
             android:text="수단"
             android:labelFor="@id/et_expense_payment"
-            android:layout_marginTop="@dimen/margin_element" />
+            android:layout_marginTop="@dimen/margin_element"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -149,7 +155,7 @@
             android:inputType="text"
             android:hint="메모를 입력하세요"
             android:autofillHints="memo"
-            android:textColorHint="@color/thirdText" />
+            android:textColorHint="@color/thirdText"/>
 
         <View
             android:layout_width="match_parent"
@@ -190,4 +196,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

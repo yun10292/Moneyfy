@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.moneyfy.R;
+import com.example.moneyfy.data.room.AppDatabase;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -21,15 +22,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
 
 public class HomeCalendarFragment extends Fragment {
 
     private MaterialCalendarView calendarView;
     private TextView textDate, textIncome, textExpense;
-
-    // 예시 데이터
-    private final Map<String, Integer> incomeMap = new HashMap<>();
-    private final Map<String, Integer> expenseMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -41,7 +39,6 @@ public class HomeCalendarFragment extends Fragment {
         textIncome = view.findViewById(R.id.text_income);
         textExpense = view.findViewById(R.id.text_expense);
 
-        setupDummyData();
         setupCalendar();
 
         return view;
@@ -66,22 +63,24 @@ public class HomeCalendarFragment extends Fragment {
 
 
 
-        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                int year = date.getYear();
-                int month = date.getMonth() + 1;
-                int day = date.getDay();
+        calendarView.setOnDateChangedListener((widget, date, selected) -> {
+            int year = date.getYear();
+            int month = date.getMonth() + 1;
+            int day = date.getDay();
 
-                textDate.setText(String.format("%d.%d. %s", month, day, getDayOfWeek(date.getDate())));
+            textDate.setText(String.format("%d.%d. %s", month, day, getDayOfWeek(date.getDate())));
 
+            Executors.newSingleThreadExecutor().execute(() -> {
                 int income = getIncome(year, month, day);
                 int expense = getExpense(year, month, day);
 
-                textIncome.setText("수입: " + income + "원");
-                textExpense.setText("지출: " + expense + "원");
-            }
+                requireActivity().runOnUiThread(() -> {
+                    textIncome.setText("수입: " + String.format("%,d원", income));
+                    textExpense.setText("지출: " + String.format("%,d원", expense));
+                });
+            });
         });
+
     }
 
     private String getDayOfWeek(Date date) {
@@ -89,17 +88,38 @@ public class HomeCalendarFragment extends Fragment {
         return sdf.format(date);
     }
 
-    // 더미 데이터 초기화
-    private void setupDummyData() {
-        incomeMap.put("2024-3-1", 30000);
-        expenseMap.put("2024-3-1", 25000);
-    }
-
     private int getIncome(int y, int m, int d) {
-        return incomeMap.getOrDefault(y + "-" + m + "-" + d, 0);
+        long[] range = getStartAndEndOfDate(y, m, d);
+        Integer result = AppDatabase.getInstance(requireContext()).transactionDao().getDailyIncome(range[0], range[1]);
+        return result != null ? result : 0;
     }
 
     private int getExpense(int y, int m, int d) {
-        return expenseMap.getOrDefault(y + "-" + m + "-" + d, 0);
+        long[] range = getStartAndEndOfDate(y, m, d);
+        Integer result = AppDatabase.getInstance(requireContext()).transactionDao().getDailyExpense(range[0], range[1]);
+        return result != null ? result : 0;
     }
+
+    private long[] getStartAndEndOfDate(int y, int m, int d) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, y);
+        cal.set(Calendar.MONTH, m - 1); // Calendar.MONTH는 0-based
+        cal.set(Calendar.DAY_OF_MONTH, d);
+
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        long start = cal.getTimeInMillis();
+
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        long end = cal.getTimeInMillis();
+
+        return new long[]{start, end};
+    }
+
+
 }

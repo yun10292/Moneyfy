@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneyfy.data.model.ChartCategoryItem;
+import com.example.moneyfy.data.room.AppDatabase;
+import com.example.moneyfy.data.room.CategorySum;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -28,6 +30,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class ChartContentFragment extends Fragment {
 
@@ -78,14 +81,34 @@ public class ChartContentFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_categories);
         List<ChartCategoryItem> categoryList = new ArrayList<>();
-        categoryList.add(new ChartCategoryItem(R.drawable.ic_add, "건강/현금", "32,330원"));
 
         ChartCategoryAdapter adapter = new ChartCategoryAdapter(categoryList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        updateChartAndList(view);
+
+        btnPrev.setOnClickListener(v -> {
+            currentMonth.add(Calendar.MONTH, -1);
+            if (isWithinLastThreeMonths(currentMonth)) {
+                updateMonth(txtMonth);
+                updateChartAndList(view); // 추가
+            } else currentMonth.add(Calendar.MONTH, 1);
+        });
+
+        btnNext.setOnClickListener(v -> {
+            Calendar now = Calendar.getInstance();
+            currentMonth.add(Calendar.MONTH, 1);
+            if (!currentMonth.after(now)) {
+                updateMonth(txtMonth);
+                updateChartAndList(view); // 추가
+            } else currentMonth.add(Calendar.MONTH, -1);
+        });
+
 
     }
+
+
 
     private void updateMonth(TextView txtMonth) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월", Locale.getDefault());
@@ -111,6 +134,41 @@ public class ChartContentFragment extends Fragment {
         chart.setData(data);
         chart.invalidate();
     }
+
+    private void updateChartAndList(View view) {
+        String yearMonth = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(currentMonth.getTime());
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<CategorySum> result = AppDatabase.getInstance(requireContext())
+                    .transactionDao()
+                    .getMonthlyAmountByCategory(chartType, yearMonth);
+
+            List<PieEntry> entries = new ArrayList<>();
+            List<ChartCategoryItem> categoryItems = new ArrayList<>();
+
+            for (CategorySum item : result) {
+                entries.add(new PieEntry(item.total, item.category));
+                String formatted = String.format(Locale.getDefault(), "%,d원", item.total);
+                categoryItems.add(new ChartCategoryItem(item.category, formatted));
+            }
+
+            requireActivity().runOnUiThread(() -> {
+                // PieChart 갱신
+                PieChart chart = view.findViewById(R.id.chart);
+                PieDataSet dataSet = new PieDataSet(entries, chartType.equals("income") ? "수입" : "지출");
+                dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                PieData data = new PieData(dataSet);
+                chart.setData(data);
+                chart.invalidate();
+
+                // RecyclerView 갱신
+                RecyclerView recyclerView = view.findViewById(R.id.rv_categories);
+                ChartCategoryAdapter adapter = new ChartCategoryAdapter(categoryItems);
+                recyclerView.setAdapter(adapter);
+            });
+        });
+    }
+
 
 
 }
