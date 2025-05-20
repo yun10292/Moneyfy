@@ -43,12 +43,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         public void bind(ExpenseItem item, OnItemClickListener listener) {
             methodView.setText(item.getMethod());
             dateView.setText(item.getDate());
-            costView.setText(item.getCost());
+
+            // 금액에 부호 및 천 단위 쉼표 적용
+            try {
+                int amount = Integer.parseInt(item.getCost());
+                String sign = "expense".equals(item.getType()) ? "-" : "+";
+                String formattedAmount = String.format("%s %,d", sign, amount);  // 예: - 10,000
+                costView.setText(formattedAmount);
+            } catch (NumberFormatException e) {
+                costView.setText(item.getCost()); // 파싱 실패 시 원래 문자열
+            }
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onItemClick(item);
             });
         }
+
     }
 
     @NonNull
@@ -68,4 +78,5 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     public int getItemCount() {
         return data.size();
     }
+
 }

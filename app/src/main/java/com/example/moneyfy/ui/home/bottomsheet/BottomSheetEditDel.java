@@ -1,6 +1,7 @@
 package com.example.moneyfy.ui.home.bottomsheet;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,15 @@ public class BottomSheetEditDel extends BottomSheetDialogFragment {
         });
 
         return dialog;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        Bundle result = new Bundle();
+        result.putBoolean("shouldRefresh", true);
+        getParentFragmentManager().setFragmentResult("refreshHomeList", result);
     }
 
     @Nullable

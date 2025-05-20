@@ -46,6 +46,15 @@ public class BottomSheetAdd extends BottomSheetDialogFragment {
         return dialog;
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        Bundle result = new Bundle();
+        result.putBoolean("shouldRefresh", true);
+        getParentFragmentManager().setFragmentResult("refreshHomeList", result);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

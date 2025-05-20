@@ -1,3 +1,9 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,7 +31,7 @@
                 style="@style/semiTextTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 재산"
+                android:text="자산"
                 android:layout_marginBottom="@dimen/margin_element" />
 
             <EditText
@@ -34,6 +40,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
+
+            <Button
+                android:id="@+id/btn_save_asset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="자산 저장"
+                android:layout_marginTop="@dimen/margin_element"
+                android:backgroundTint="@color/secondaryText"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="@dimen/margin_element" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -64,6 +80,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
+
+            <Button
+                android:id="@+id/btn_save_budget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="예산 저장"
+                android:layout_marginTop="@dimen/margin_element"
+                android:backgroundTint="@color/secondaryText"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="@dimen/margin_element" />
 
             <TextView
                 style="@style/semiTextTitle"
@@ -150,6 +176,16 @@
                 android:textSize="18sp"
                 android:textColor="@color/primaryText" />
 
+            <Button
+                android:id="@+id/btn_save_goal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="목표 저축금액 저장"
+                android:layout_marginTop="@dimen/margin_element"
+                android:backgroundTint="@color/secondaryText"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="@dimen/margin_element" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,3 +227,4 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
+</ScrollView>
