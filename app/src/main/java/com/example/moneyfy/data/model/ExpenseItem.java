@@ -36,4 +36,6 @@ public class ExpenseItem implements Serializable {
     public String getMemo() {
         return memo;
     }
+
+
 }

@@ -59,4 +59,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Retrofit (서버 통신 라이브러리)
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // Gson 변환기 (JSON 직렬화/역직렬화)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }
