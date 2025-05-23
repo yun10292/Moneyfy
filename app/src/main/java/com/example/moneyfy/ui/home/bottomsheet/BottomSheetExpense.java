@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.moneyfy.R;
+import com.example.moneyfy.data.feedback.FeedbackApi;
+import com.example.moneyfy.data.feedback.FeedbackData;
 import com.example.moneyfy.data.model.ExpenseItem;
 import com.example.moneyfy.data.room.AppDatabase;
 import com.example.moneyfy.data.room.Transaction;
@@ -28,9 +30,18 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class BottomSheetExpense extends Fragment {
 
     private ExpenseItem item = null;
+
+    //추가
+    public String originalCategory;
 
     public static BottomSheetExpense newInstance(@Nullable ExpenseItem item, boolean isEdit) {
         BottomSheetExpense fragment = new BottomSheetExpense();
@@ -94,6 +105,9 @@ public class BottomSheetExpense extends Fragment {
             etDate.setText(item.getDate());
             etCost.setText(item.getCost());
             etMemo.setText(item.getMemo());
+
+            //추가
+            originalCategory = item.getCategory();
 
             etCategory.setText(item.getCategory(), false);
             etPayment.setText(item.getMethod(), false);
@@ -173,7 +187,15 @@ public class BottomSheetExpense extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().update(t);
                 Log.d("DB", "데이터 수정 완료: " + t.toString());
+
+                //수정
+                if (!originalCategory.equals(category)) {
+                    sendFeedbackToServer(t.memo, t.category);
+                    Log.d("BottomSheetExpense", "Send Feedback To Server");
+                }
             });
+
+
         });
 
         // 삭제
@@ -208,4 +230,27 @@ public class BottomSheetExpense extends Fragment {
         }
     }
 
+
+    //추가
+    private void sendFeedbackToServer(String store, String correctedCategory) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://ner-sms-server.onrender.com/") //http://192.168.0.40:5000/
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FeedbackApi api = retrofit.create(FeedbackApi.class);
+        FeedbackData data = new FeedbackData(store, correctedCategory);
+
+        api.sendFeedback(data).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("Feedback", "카테고리 피드백 전송 성공");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Feedback", "카테고리 피드백 전송 실패: " + t.getMessage());
+            }
+        });
+    }
 }

@@ -94,6 +94,7 @@ public class HomeListFragment extends Fragment {
             bottomSheet.show(getParentFragmentManager(), bottomSheet.getTag());
         });
 
+
         getParentFragmentManager().setFragmentResultListener("refreshHomeList", getViewLifecycleOwner(), (key, bundle) -> {
             if (bundle.getBoolean("shouldRefresh", false)) {
                 loadData();
