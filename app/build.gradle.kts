@@ -1,19 +1,7 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
-
-// local.properties에서 API 키 읽기
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(FileInputStream(localPropertiesFile))
-}
-val openAiApiKey: String = localProperties.getProperty("OPENAI_API_KEY") ?: ""
-
 
 android {
     namespace = "com.example.moneyfy"
@@ -27,8 +15,6 @@ android {
         versionName = "1.0"
         vectorDrawables.useSupportLibrary=true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
     }
 
 
@@ -44,10 +30,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 }
 
@@ -79,9 +61,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // OpenAI GPT API 연동용 Retrofit 및 JSON 변환기
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Retrofit (서버 통신 라이브러리) + OpenAI GPT 연동용
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // Gson 변환기 (JSON 직렬화/역직렬화)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 }
