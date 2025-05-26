@@ -6,6 +6,10 @@ import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,15 +51,53 @@ public class AdviceFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(AdviceViewModel.class);
 
         // 3. LiveData 관찰 → 메시지 UI 업데이트
+        TextView placeholder = view.findViewById(R.id.tv_placeholder);
+
         viewModel.getMessages().observe(getViewLifecycleOwner(), messages -> {
             adapter.setMessages(messages);
             adapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(messages.size() - 1);
+
+            // 메시지가 생기면 안내 문구 숨기기
+            if (!messages.isEmpty()) {
+                placeholder.setVisibility(View.GONE);
+            }
         });
 
-        // 4. GPT 조언 요청
-        viewModel.fetchGptAdvice();
+        // 5. 추천 버튼 클릭 이벤트 설정
+        LinearLayout promptLayout = view.findViewById(R.id.prompt_container);
+        setPromptButtonListeners(promptLayout);
+
+        // 6. 입력창 처리
+        EditText input = view.findViewById(R.id.et_message);
+        view.findViewById(R.id.btn_send).setOnClickListener(v -> {
+            String userInput = input.getText().toString();
+            if (!userInput.trim().isEmpty()) {
+                viewModel.handleUserPrompt(userInput, false);
+                input.setText("");
+            }
+        });
+
+
+//        // 4. GPT 조언 요청
+//        viewModel.fetchGptAdvice();
 
         return view;
+    }
+
+    // 추천 버튼들을 위한 클릭 이벤트 설정 함수
+    private void setPromptButtonListeners(View promptLayout) {
+        if (promptLayout instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) promptLayout;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                View child = group.getChildAt(i);
+                if (child instanceof Button) {
+                    child.setOnClickListener(v -> {
+                        String keyword = ((Button) v).getText().toString();
+                        viewModel.handleUserPrompt(keyword, true);
+                    });
+                }
+            }
+        }
     }
 }

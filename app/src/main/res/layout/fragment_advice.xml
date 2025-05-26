@@ -7,14 +7,77 @@
     android:padding="8dp"
     android:background="@color/background">
 
-    <!-- 채팅 목록 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chat"
+    <!--  기존 RecyclerView를 감싸는 FrameLayout으로 변경 -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1">
+
+        <!-- 채팅 목록 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <!-- 안내 문구 (채팅 없을 때만 보임) -->
+        <TextView
+            android:id="@+id/tv_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="안녕하세요! 무엇을 도와드릴까요?"
+            android:textColor="@color/secondaryText"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <!-- 추천 프롬프트 버튼 영역 추가 -->
+    <HorizontalScrollView
+        android:id="@+id/prompt_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
         android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/prompt_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="4dp">
+
+            <Button
+                android:id="@+id/btn_prompt_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="소비 분석"
+                android:textSize="13sp"
+                android:background="@drawable/bg_rounded_button"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_prompt_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="절약 팁 알려줘"
+                android:textSize="13sp"
+                android:background="@drawable/bg_rounded_button"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_prompt_save"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="예산 설정 도움"
+                android:textSize="13sp"
+                android:background="@drawable/bg_rounded_button" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- 메시지 입력 영역 -->
     <LinearLayout
