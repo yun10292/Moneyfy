@@ -59,14 +59,14 @@ public class AdviceViewModel extends AndroidViewModel {
     private void fetchAdviceFromGpt(@Nullable String userInput, @Nullable String promptType) {
         executor.execute(() -> {
             try {
-                // 1. 현재 연월 구하기 (예: 202405)
+                // 1. 현재 연월 구하기
                 String yearMonth = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(new Date());
 
                 // 2. 월별 수입/지출 데이터 불러오기
                 List<CategorySum> expenseSummary = transactionDao.getMonthlyAmountByCategory("expense", yearMonth);
                 List<CategorySum> incomeSummary = transactionDao.getMonthlyAmountByCategory("income", yearMonth);
 
-                // 3. GPT 프롬프트 생성 (추천 버튼이든, 사용자 입력이든 모두 이 메서드로 통일)
+                // 3. GPT 프롬프트 생성 (추천 버튼, 사용자 입력 모두 이 메서드로 통일)
                 String prompt = GPTPromptBuilder.buildPromptWithType(userInput, promptType, expenseSummary, incomeSummary);
 
                 // 4. 프롬프트 자체를 사용자 메시지로 보여주고 GPT 요청

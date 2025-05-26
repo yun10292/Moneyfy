@@ -21,7 +21,7 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <!-- 안내 문구 (채팅 없을 때만 보임) -->
+        <!-- 안내 문구 (채팅 없을 때만) -->
         <TextView
             android:id="@+id/tv_placeholder"
             android:layout_width="match_parent"

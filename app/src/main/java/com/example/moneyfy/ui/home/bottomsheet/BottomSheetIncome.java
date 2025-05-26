@@ -59,7 +59,7 @@ public class BottomSheetIncome extends Fragment {
         // 드롭다운 초기화
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_dropdown_item_1line,
-                getResources().getStringArray(R.array.category_list));
+                getResources().getStringArray(R.array.income_category_list));
         etCategory.setAdapter(categoryAdapter);
 
         ArrayAdapter<String> methodAdapter = new ArrayAdapter<>(requireContext(),

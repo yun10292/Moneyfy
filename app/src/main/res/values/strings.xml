@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <string-array name="category_list">
+        <string-array name="expenses_category_list">
             <item>식비</item>
             <item>교통/차량</item>
             <item>문화생활</item>
@@ -14,11 +14,17 @@
             <item>경조사/회비</item>
             <item>부모님</item>
             <item>저축</item>
+            <item>기타</item>
+        </string-array>
+
+        <string-array name="income_category_list">
             <item>용돈</item>
             <item>근로소득</item>
             <item>금융소득</item>
             <item>기타</item>
         </string-array>
+
+
 
         <string-array name="method_list">
             <item>현금</item>
