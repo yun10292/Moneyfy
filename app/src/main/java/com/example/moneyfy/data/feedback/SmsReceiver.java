@@ -47,8 +47,12 @@ public class SmsReceiver extends BroadcastReceiver {
 
         String smsBody = messageBuilder.toString();
 
-        Log.d("SMSReceiver", "수신된 문자 내용: " + smsBody);
-
+        // "총누적"이 있다면 그 앞까지만 잘라내기
+        int index = smsBody.indexOf("총누적");
+        if (index != -1) {
+            smsBody = smsBody.substring(0, index).trim();  // "총누적" 앞까지만 유지
+            Log.d("SMSReceiver", "'총누적' 이후 삭제된 문자: " + smsBody);
+        }
 
         if (smsBody.contains("카드") || smsBody.contains("거래시간") ||
                 smsBody.contains("KB국민") ||
