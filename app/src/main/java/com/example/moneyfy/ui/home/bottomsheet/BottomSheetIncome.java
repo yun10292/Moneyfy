@@ -128,6 +128,10 @@ public class BottomSheetIncome extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().insert(t);
                 Log.d("DB", "데이터 삽입 완료: " + t.toString());
+
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "등록이이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
 
         });
@@ -158,6 +162,10 @@ public class BottomSheetIncome extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().update(t);
                 Log.d("DB", "데이터 수정 완료: " + t.toString());
+
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "수정이이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
         });
 
@@ -178,6 +186,10 @@ public class BottomSheetIncome extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().delete(t);
                 Log.d("DB", "데이터 삭제 완료: " + t.toString());
+
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
 
         });
