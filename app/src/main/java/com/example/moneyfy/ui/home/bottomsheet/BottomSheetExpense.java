@@ -157,6 +157,9 @@ public class BottomSheetExpense extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().insert(t);
                 Log.d("DB", "데이터 삽입 완료: " + t.toString());
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "등록이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
         });
 
@@ -193,6 +196,9 @@ public class BottomSheetExpense extends Fragment {
                     sendFeedbackToServer(t.memo, t.category);
                     Log.d("BottomSheetExpense", "Send Feedback To Server");
                 }
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "등록이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
 
 
@@ -214,6 +220,10 @@ public class BottomSheetExpense extends Fragment {
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(context).transactionDao().delete(t);
                 Log.d("DB", "데이터 삭제 완료: " + t.toString());
+
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                );
             });
         });
 
