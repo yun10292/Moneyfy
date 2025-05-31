@@ -56,7 +56,7 @@ public class BudgetFragment extends Fragment {
         EditText etAsset = view.findViewById(R.id.et_total_asset);
         Button btnSaveAsset = view.findViewById(R.id.btn_save_asset);
 
-        Button btnSaveGoal = view.findViewById(R.id.btn_save_goal);;
+        Button btnSaveGoal = view.findViewById(R.id.btn_save_goal);
         EditText etGoal = view.findViewById(R.id.et_saving_goal);
 
         EditText etBudget = view.findViewById(R.id.et_month_budget);
@@ -151,92 +151,52 @@ public class BudgetFragment extends Fragment {
             goal.goalAmount = goalAmount;
             goal.currentSavedAmount = 0;
 
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+                // 1) DB에 목표 저장
+                AppDatabase.getInstance(requireContext()).savingGoalDao().insert(goal);
+                Log.d("Goal", "목표 저장 완료: " + goalAmount);
+
+                // 2) 저장한 후, 다시 DB에서 최신 목표 가져오기
+                long today = System.currentTimeMillis();
+                List<SavingGoal> activeGoals = AppDatabase.getInstance(requireContext())
+                        .savingGoalDao().getActiveGoals(today);
+
+                if (!activeGoals.isEmpty()) {
+                    SavingGoal latestGoal = activeGoals.get(0);
+
+                    String newStartStr = formatMillisToDate(latestGoal.startDate);
+                    String newEndStr = formatMillisToDate(latestGoal.endDate);
+                    String newGoalStr = String.valueOf(latestGoal.goalAmount);
+
+                    Integer savedAmount = AppDatabase.getInstance(requireContext())
+                            .transactionDao().getTotalSaving(latestGoal.startDate, latestGoal.endDate);
+                    int saved = (savedAmount != null) ? savedAmount : 0;
+                    int remain = latestGoal.goalAmount - saved;
+                    int percent = (latestGoal.goalAmount > 0) ? (100 * saved / latestGoal.goalAmount) : 0;
+
+                    // 3) UI 스레드에서 화면 갱신
+                    requireActivity().runOnUiThread(() -> {
+                        textStartDate.setText(newStartStr);
+                        textEndDate.setText(newEndStr);
+                        etGoal.setText(newGoalStr);
+                        textRemain.setText(remain + "원");
+                        pbProgress.setProgress(percent);
+                        textPercent.setText(percent + "% 달성");
+                        Toast.makeText(requireContext(), "저축 목표가 저장되고 UI에 반영되었습니다", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase.getInstance(requireContext()).savingGoalDao().insert(goal);
                 Log.d("Goal", "목표 저장 완료: " + goalAmount);
             });
 
+
             Toast.makeText(requireContext(), "저축 목표가 저장되었습니다", Toast.LENGTH_SHORT).show();
         });
 
-        Executors.newSingleThreadExecutor().execute(() -> {
-            long today = System.currentTimeMillis();
-            List<SavingGoal> activeGoals = AppDatabase.getInstance(requireContext())
-                    .savingGoalDao().getActiveGoals(today);
-
-            if (!activeGoals.isEmpty()) {
-                SavingGoal goal = activeGoals.get(0);  // 가장 최신 목표 사용
-
-                String startStr = formatMillisToDate(goal.startDate);
-                String endStr = formatMillisToDate(goal.endDate);
-                String goalStr = String.valueOf(goal.goalAmount);
-
-                requireActivity().runOnUiThread(() -> {
-                    textStartDate.setText(startStr);
-                    textEndDate.setText(endStr);
-                    etGoal.setText(goalStr);
-                });
-            }
-        });
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            long today = System.currentTimeMillis();
-            List<SavingGoal> activeGoals = AppDatabase.getInstance(requireContext())
-                    .savingGoalDao().getActiveGoals(today);
-
-            if (!activeGoals.isEmpty()) {
-                SavingGoal goal = activeGoals.get(0);
-
-                // 목표 정보 표시
-                String startStr = formatMillisToDate(goal.startDate);
-                String endStr = formatMillisToDate(goal.endDate);
-                String goalStr = String.valueOf(goal.goalAmount);
-
-                // ✅ 저축 합계 조회
-                Integer savedAmount = AppDatabase.getInstance(requireContext())
-                        .transactionDao().getTotalSaving(goal.startDate, goal.endDate);
-                int saved = (savedAmount != null) ? savedAmount : 0;
-                int remain = goal.goalAmount - saved;
-
-                requireActivity().runOnUiThread(() -> {
-                    textStartDate.setText(startStr);
-                    textEndDate.setText(endStr);
-                    etGoal.setText(goalStr);
-                    textRemain.setText(remain + "원");
-                });
-            }
-        });
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            long today = System.currentTimeMillis();
-            AppDatabase db = AppDatabase.getInstance(requireContext());
-            List<SavingGoal> activeGoals = db.savingGoalDao().getActiveGoals(today);
-
-            if (!activeGoals.isEmpty()) {
-                SavingGoal goal = activeGoals.get(0);
-
-                // 목표 정보
-                String startStr = formatMillisToDate(goal.startDate);
-                String endStr = formatMillisToDate(goal.endDate);
-                String goalStr = String.valueOf(goal.goalAmount);
-
-                // 저장된 저축 총합
-                Integer savedAmount = db.transactionDao().getTotalSaving(goal.startDate, goal.endDate);
-                int saved = (savedAmount != null) ? savedAmount : 0;
-                int remain = goal.goalAmount - saved;
-                int percent = (goal.goalAmount > 0) ? (100 * saved / goal.goalAmount) : 0;
-
-                requireActivity().runOnUiThread(() -> {
-                    textStartDate.setText(startStr);
-                    textEndDate.setText(endStr);
-                    etGoal.setText(goalStr);
-                    textRemain.setText(remain + "원");
-
-                    pbProgress.setProgress(percent);
-                    textPercent.setText(percent + "% 달성");
-                });
-            }
-        });
 
         btnSaveAsset.setOnClickListener(v -> {
             String assetStr = etAsset.getText().toString().trim();
