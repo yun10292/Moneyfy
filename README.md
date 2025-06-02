@@ -84,3 +84,33 @@
 # 차트 탭 아이콘 해제
 - 차트 탭 카테고리별 DB 연동 과정에서 충돌이 발생하여 카테고리 아이콘 연결 해제
 
+---
+
+# SMS 파싱
+
+## ✨ 주요 기능
+
+- 📩 카드사 SMS 수신 시 자동 파싱
+- 🤖 Flask 서버로 NER 및 카테고리 분류 요청
+- 🗂 사용처, 금액, 시간 자동 추출 및 DB 저장
+- 📝 수동 수정 시 서버에 피드백 전송
+- 🔁 사용자 피드백 기반 모델 재학습 자동화
+- 🌐 Render를 통한 Flask 서버 배포 가능
+
+---
+
+## 🚀 기술 스택
+
+| 파트 | 기술 |
+| --- | --- |
+| Android | Java, Room, Retrofit2, MVVM |
+| Server | Flask, spaCy, scikit-learn, joblib |
+| ML 모델 | MultinomialNB + TfidfVectorizer, spaCy NER |
+| 배포 | Render (https 지원) |
+|  |  |
+
+## 📖 참고 자료
+
+- [spaCy NER 공식 문서](https://spacy.io/)
+- [Render Flask 배포](https://render.com/docs/deploy-flask)
+- [scikit-learn 모델 저장/불러오기](https://scikit-learn.org/stable/modules/model_persistence.html)
