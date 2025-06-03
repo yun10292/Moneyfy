@@ -87,6 +87,7 @@
 ---
 
 # SMS 파싱
+https://github.com/hwangmouse/ner_sms_server
 
 ## ✨ 주요 기능
 
